@@ -27,6 +27,4 @@ endfun
 " nargs=* because no arguments are possible and because any number of
 " arguments is considered as one
 command! -nargs=* -range SendToTerm call s:send_to_term(<line1>, <line2>, <q-args>)
-nnoremap <leader>x :SendToTerm<cr>
-vnoremap <leader>x :SendToTerm<cr>
 
