@@ -34,7 +34,6 @@ command! -nargs=* -range SendToTerm call s:send_to_term(<line1>, <line2>, <q-arg
  " ⡏⢱ ⣏⡉ ⣏⡉ ⡇ ⡷⣸ ⡇ ⢹⠁ ⡇ ⡎⢱ ⡷⣸   ⣎⣱ ⢎⡑   ⣎⣱ ⡷⣸   ⡎⢱ ⣏⡱ ⣏⡉ ⣏⡱ ⣎⣱ ⢹⠁ ⡎⢱ ⣏⡱
  " ⠧⠜ ⠧⠤ ⠇  ⠇ ⠇⠹ ⠇ ⠸  ⠇ ⠣⠜ ⠇⠹   ⠇⠸ ⠢⠜   ⠇⠸ ⠇⠹   ⠣⠜ ⠇  ⠧⠤ ⠇⠱ ⠇⠸ ⠸  ⠣⠜ ⠇⠱
 
-
 " function to get the contents of the current visual selection
 function! s:get_visual_selection()
     " Why is this not a built-in Vim script function?!
