@@ -1,17 +1,30 @@
 # vim-send-to-term
 
-This plugin define only one command that allows you to send some text in a vim terminal-window.
+This plugin defines a way to send some text in a vim terminal window.
 
-It is made to be as simple as possible, and it only implements very basic functions : sending selected text or sending defined text. It is free to you to extend it as you wish.
+It is made to be as simple as possible, and it only implements very basic functions : sending selected text, sending arguments of a command, or sending with an operator. It is free to you to extend it as you wish.
+
+# Basic configuration
+
+## Installation
+
+To install that plugin, use Vundle (or any other plugin manager) :
+
+```vim
+Plugin 'OsKaR31415/vim-send-to-term'
+```
 
 # Basic usage
 
-The plugin defines the command `SendToTerm` that opens (if not already open) a terminal window in vim, and sends the argument it got.
+The plugin defines the `SendToTerm` command, and the `OperatorSendToTerm` function that is used to define an operator
 
-There are 2 ways to use the command.
+## The `SendToTerm` command
 
+The `SendToTerm` command sends its argument to the terminal attached. If no terminal is attached, it creates a new one.
 
-## Passing as an argument
+The command also accepts using ranges (like with `'<,'>SendToTerm`). This allows you to send the contents of a visual selection.
+
+### Passing as an argument
 
 The first method is to pass the string you want to send to the terminal as ad argument to the command.
 
@@ -24,7 +37,7 @@ The first method is to pass the string you want to send to the terminal as ad ar
 `:SendToTerm "ls"`
 
 
-## Using Visual selection
+### Using Visual selection
 
 The second method is to use the command after performing a visual selection.
 Vim does prefix the command by `'<'>`.
@@ -43,11 +56,25 @@ Sends to terminal the visual selection you just did.
 
 That will send the current paragraph to the terminal.
 
+
+## Operator to send to terminal
+
+To define the operator, you shall add to your `.vimrc` these lines :
+
+```vim
+" normal mode mapping
+nnoremap <silent> <leader>x :set opfunc=OperatorSendToTerm<cr>g@
+" visual mode mapping
+vnoremap <silent> <leader>x :<c-u>call OperatorSendToTerm(visualmode(), 1)<cr>
+```
+
+In these 2 lines, the operator is mapped to `<leader>x`. But you are
+free to change that as you wish.
+
 # What the plugin isn't doing
 
  - This plugin cannot connect to an existing terminal window
- - This plugin cannot change the connected terminal to another (you could do it by hand with the variable `let g:terminal_buffer`)
- - This plugin does not (for the moment) implement an operator to send text to the terminal
+ - This plugin cannot change the connected terminal to another (you could do it by hand changing the variable `let g:terminal_buffer`)
 
 
 
