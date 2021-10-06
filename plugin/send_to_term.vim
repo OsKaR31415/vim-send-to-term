@@ -1,4 +1,6 @@
 
+ " ⡏⢱ ⣏⡉ ⣏⡉ ⡇ ⡷⣸ ⡇ ⢹⠁ ⡇ ⡎⢱ ⡷⣸   ⡎⢱ ⣏⡉   ⢹⠁ ⣇⣸ ⣏⡉   ⡎⠑ ⡎⢱ ⡷⢾ ⡷⢾ ⣎⣱ ⡷⣸ ⡏⢱
+ " ⠧⠜ ⠧⠤ ⠇  ⠇ ⠇⠹ ⠇ ⠸  ⠇ ⠣⠜ ⠇⠹   ⠣⠜ ⠇    ⠸  ⠇⠸ ⠧⠤   ⠣⠔ ⠣⠜ ⠇⠸ ⠇⠸ ⠇⠸ ⠇⠹ ⠧⠜
 fun! s:send_to_term(lnum1, lnum2, arg)
     " get terminal buffer
     let g:terminal_buffer = get(g:, 'terminal_buffer', -1)
@@ -29,10 +31,11 @@ endfun
 command! -nargs=* -range SendToTerm call s:send_to_term(<line1>, <line2>, <q-args>)
 
 
+ " ⡏⢱ ⣏⡉ ⣏⡉ ⡇ ⡷⣸ ⡇ ⢹⠁ ⡇ ⡎⢱ ⡷⣸   ⣎⣱ ⢎⡑   ⣎⣱ ⡷⣸   ⡎⢱ ⣏⡱ ⣏⡉ ⣏⡱ ⣎⣱ ⢹⠁ ⡎⢱ ⣏⡱
+ " ⠧⠜ ⠧⠤ ⠇  ⠇ ⠇⠹ ⠇ ⠸  ⠇ ⠣⠜ ⠇⠹   ⠇⠸ ⠢⠜   ⠇⠸ ⠇⠹   ⠣⠜ ⠇  ⠧⠤ ⠇⠱ ⠇⠸ ⠸  ⠣⠜ ⠇⠱
 
-nnoremap <silent> <leader>x :set opfunc=Surround<cr>g@
-vnoremap <silent> <leader>x :<c-u>call Surround(visualmode(), 1)<cr>
 
+" function to get the contents of the current visual selection
 function! s:get_visual_selection()
     " Why is this not a built-in Vim script function?!
     let [line_start, column_start] = getpos("'<")[1:2]
@@ -46,23 +49,19 @@ function! s:get_visual_selection()
     return join(lines, "\n")
 endfunction
 
-function! OperatorSendToTerm(vt, ...)
-    " let s = InputChar()
-    " if s =~ "\<esc>" || s =~ "\<c-c>"
-    "     return
-    " endif
-    let [sl, sc] = getpos(a:0 ? "'<" : "'[")[1:2]
-    let [el, ec] = getpos(a:0 ? "'>" : "']")[1:2]
 
-    " visual selection
+" function that defines the operator
+function! OperatorSendToTerm(vt, ...)
+    " --> visual selection
     if a:vt == 'line' || a:vt == 'V'
+        " cannot use '<'> because they are only by line, not by char
         exe "SendToTerm " . s:get_visual_selection()
-    " visual block
+    " --> visual block
     elseif a:vt == 'block' || a:vt == "\<c-v>"
         " exe sl.','.el 's/\%'.sc.'c\|\%'.ec.'c.\zs/\=s/g|norm!``'
         " for the moment, it is line-wise
         '<,'>SendToTerm
-    " normal mode
+    " --> normal mode
     else
         call setpos('.', getpos("'["))
         normal! v
@@ -72,6 +71,4 @@ function! OperatorSendToTerm(vt, ...)
     endif
 endfunction
 
-
-nnoremap <silent> <leader>x :set opfunc=OperatorSendToTerm<cr>g@
 
